@@ -1,0 +1,38 @@
+{
+  "appName": "borneo",
+  "env": {
+    "isProduction": false
+  },
+  "server": {
+    "port": 80,
+    "host": "localhost",
+    "corsWhitelist": []
+  },
+  "logging": {
+    "level": "debug",
+    "console": {
+      "isEnabled": true
+    },
+    "fs": {
+      "isEnabled": true,
+      "logDir": "./logs"
+    }
+  },
+  "elasticsearch": {
+    "host": "elasticsearch",
+    "port": 9200,
+    "user": "",
+    "password": ""
+  },
+  "s3": {
+    "bucketName": "onrent",
+    "credentials": {
+      "accessKeyId": "S3_Bucket_ID",
+      "secretAccessKey": "S3_Secret_KEY"
+    },
+    "domain": "https://s3.ap-south-1.amazonaws.com/borneo/",
+    "folders": {
+      "image": "images/"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "PHONE_NOT_EXIST": {
+    "statusCode": 400,
+    "message": "Phone number does not exist in our database",
+    "error": "PHONE_NOT_EXIST"
+  }
+}
