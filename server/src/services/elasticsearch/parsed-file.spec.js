@@ -1,6 +1,4 @@
-const {
-  describe, it, before, after, beforeEach
-} = require('mocha');
+const { describe, it, before, after, beforeEach } = require('mocha');
 const chai = require('chai');
 const chance = require('chance').Chance();
 const chaiAsPromised = require('chai-as-promised');

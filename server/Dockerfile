@@ -1,23 +1,15 @@
-FROM node:14-alpine as builder
+FROM node:14-alpine
 
 LABEL maintainer="reachout@krishansaini.com"
 
+WORKDIR /app
+
 COPY ./package*.json ./
 
-RUN npm ci
-
-FROM node:14-alpine
+RUN npm i
 
 EXPOSE 80
 
-WORKDIR /app
-
-COPY --from=builder node_modules node_modules
 COPY . /app
 
-RUN npm -g install kill-port
-
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
-RUN chmod +x /wait
-
-CMD /wait && npm start
+CMD npm start

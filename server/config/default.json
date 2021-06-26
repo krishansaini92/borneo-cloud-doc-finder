@@ -25,14 +25,12 @@
     "password": ""
   },
   "s3": {
-    "bucketName": "onrent",
+    "bucketName": "borneo",
     "credentials": {
       "accessKeyId": "S3_Bucket_ID",
       "secretAccessKey": "S3_Secret_KEY"
     },
-    "domain": "https://s3.ap-south-1.amazonaws.com/borneo/",
-    "folders": {
-      "image": "images/"
-    }
-  }
+    "domain": "https://s3.ap-south-1.amazonaws.com/borneo/"
+  },
+  "defaultDownloadPath": "/downloads"
 }

@@ -17,9 +17,7 @@ const alignedWithColorsAndTimeFormater = winston.format.combine(
   winston.format.timestamp(),
   winston.format.align(),
   winston.format.printf((info) => {
-    const {
-      timestamp, level, message, ...args
-    } = info;
+    const { timestamp, level, message, ...args } = info;
 
     const ts = timestamp.slice(0, 19).replace('T', ' ');
 
@@ -30,10 +28,12 @@ const alignedWithColorsAndTimeFormater = winston.format.combine(
 );
 
 if (config.get('console.isEnabled')) {
-  transports.push(new winston.transports.Console({
-    level: config.get('level'),
-    format: alignedWithColorsAndTimeFormater
-  }));
+  transports.push(
+    new winston.transports.Console({
+      level: config.get('level'),
+      format: alignedWithColorsAndTimeFormater
+    })
+  );
 }
 
 if (config.get('fs.isEnabled')) {
@@ -56,9 +56,11 @@ if (config.get('fs.isEnabled')) {
 
 // we want to ignore all logs, e.g when running tests
 if (!transports.length) {
-  transports.push(new winston.transports.Stream({
-    stream: fs.createWriteStream('/dev/null')
-  }));
+  transports.push(
+    new winston.transports.Stream({
+      stream: fs.createWriteStream('/dev/null')
+    })
+  );
 }
 
 const logger = winston.createLogger({

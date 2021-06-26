@@ -1,8 +1,6 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_source"] }] */
 class EsIndex {
-  constructor({
-    logger, client, index, forceRefresh = false, mappings
-  }) {
+  constructor({ logger, client, index, forceRefresh = false, mappings }) {
     this.forceRefresh = forceRefresh;
     this.logger = logger;
     this.client = client;

@@ -15,7 +15,11 @@ const app = express();
 if (logging.get('console.isEnabled')) {
   morgan.token('request-id', (req) => req.requestId);
 
-  app.use(morgan(':date :request-id :method :url :response-time ms :remote-addr - :remote-user  "HTTP/:http-version" ":referrer" :status'));
+  app.use(
+    morgan(
+      ':date :request-id :method :url :response-time ms :remote-addr - :remote-user  "HTTP/:http-version" ":referrer" :status'
+    )
+  );
 }
 
 app.use(helmet());
@@ -23,12 +27,14 @@ app.use(addRequestId({ attributeName: 'requestId' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors({
-  origin:
+app.use(
+  cors({
+    origin:
       server.get('corsWhitelist').length === 0
         ? '*' // eslint-disable-next-line security/detect-non-literal-regexp
         : server.get('corsWhitelist').map((x) => new RegExp(x))
-}));
+  })
+);
 
 app.use(async (req, res, next) => {
   req.logger = logger.child({
@@ -58,7 +64,9 @@ app.listen(server.get('port'), async () => {
     elasticsearch
       .ensureIndex()
       .then(() => logger.info('Elasticsearch initialized successfully'))
-      .catch((err) => logger.error('Failed to initialize elasticsearch', { error: err, message: err.message }));
+      .catch((err) =>
+        logger.error('Failed to initialize elasticsearch', { error: err, message: err.message })
+      );
 
     logger.info(`App started on port ${server.get('port')}`);
   } catch (err) {

@@ -2,7 +2,17 @@ const EsIndex = require('./es-index');
 
 const defaultIndex = 'parsedfile';
 
-const defaultMapping = {};
+const defaultMapping = {
+  text: {
+    type: 'keyword'
+  },
+  updatedAt: {
+    type: 'date'
+  },
+  fileName: {
+    type: 'keyword'
+  }
+};
 
 class ParsedFile extends EsIndex {
   constructor({ index = defaultIndex, mappings = defaultMapping, ...args }) {
@@ -50,12 +60,21 @@ class ParsedFile extends EsIndex {
 
   async search(filter, from = 0, size = 1000) {
     const search = filter && filter.search;
+    const name = filter && filter.name;
 
     const query = {
       bool: {
         must: []
       }
     };
+
+    if (name) {
+      query.bool.must.push({
+        term: {
+          fileName: name
+        }
+      });
+    }
 
     if (search) {
       const searchWords = search
@@ -77,8 +96,8 @@ class ParsedFile extends EsIndex {
         });
       });
     }
-
-    const sort = { createdAt: 'desc' };
+    console.log(JSON.stringify(query));
+    const sort = { updatedAt: 'desc' };
     const result = await this.client.search({
       index: this.index,
       body: {
@@ -88,7 +107,7 @@ class ParsedFile extends EsIndex {
         size
       }
     });
-    this.logger.debug('ES result', { from, size, result });
+    // this.logger.debug('ES result', { from, size, result });
     const parsedFiles = result.body.hits.hits;
 
     return {

@@ -21,3 +21,7 @@ services:
       - ./server:/app
       - /app/node_modules
     command: npm run start
+    environment:
+      discovery.type: single-node
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
