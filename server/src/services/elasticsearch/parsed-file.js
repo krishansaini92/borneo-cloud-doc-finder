@@ -4,13 +4,13 @@ const defaultIndex = 'parsedfile';
 
 const defaultMapping = {
   text: {
-    type: 'keyword'
+    type: 'text'
   },
   updatedAt: {
     type: 'date'
   },
   fileName: {
-    type: 'keyword'
+    type: 'text'
   }
 };
 
@@ -20,6 +20,7 @@ class ParsedFile extends EsIndex {
   }
 
   async upsert(parsedFileObj) {
+
     const parsedFile = {
       id: parsedFileObj.id,
       fileName: parsedFileObj.name,
@@ -80,7 +81,7 @@ class ParsedFile extends EsIndex {
       const searchWords = search
         .trim()
         .toLowerCase()
-        .split(' ');
+        .split(/[\.\-_ ]/);
 
       searchWords.forEach((searchWord) => {
         query.bool.must.push({
@@ -88,7 +89,20 @@ class ParsedFile extends EsIndex {
             should: [
               {
                 wildcard: {
-                  text: `*${searchWord}*`
+                  text: {
+                    value: `*${searchWord}*`,
+                    boost: 1.0,
+                    rewrite: "constant_score"
+                  }
+                }
+              },
+              {
+                wildcard: {
+                  fileName: {
+                    value: `*${searchWord}*`,
+                    boost: 1.0,
+                    rewrite: "constant_score"
+                  }
                 }
               }
             ]
